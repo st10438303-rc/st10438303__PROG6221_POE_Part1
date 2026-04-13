@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -18,8 +18,19 @@ jobs:
       with:
         dotnet-version: '6.0.x'
     
+    - name: List files (debug)
+      run: ls -la
+    
+    - name: Find csproj file
+      run: |
+        echo "Looking for .csproj file..."
+        find . -name "*.csproj"
+    
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore CybersecurityChatbot/CybersecurityChatbot.csproj
+    
+    - name: Build
+      run: dotnet build CybersecurityChatbot/CybersecurityChatbot.csproj --no-restore --configuration Release
     
     - name: Build
       run: dotnet build --no-restore --configuration Release

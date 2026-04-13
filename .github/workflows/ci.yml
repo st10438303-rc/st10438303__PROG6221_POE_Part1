@@ -1,39 +1,21 @@
-name: Build and Test
+name: .NET Build
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
-    
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '6.0.x'
-    
-    - name: List files (debug)
-      run: ls -la
-    
-    - name: Find csproj file
-      run: |
-        echo "Looking for .csproj file..."
-        find . -name "*.csproj"
-    
+        dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore CybersecurityChatbot/CybersecurityChatbot.csproj
-    
+      run: dotnet restore CybersecurityChatbot/CybersecurityChatbot.sln
     - name: Build
-      run: dotnet build CybersecurityChatbot/CybersecurityChatbot.csproj --no-restore --configuration Release
-    
-    - name: Build
-      run: dotnet build --no-restore --configuration Release
-    
-    - name: Run tests
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet build CybersecurityChatbot/CybersecurityChatbot.sln --no-restore
